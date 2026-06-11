@@ -47,7 +47,7 @@ export default async function HomePage() {
             <div className="box"><div className="big">{toFa(stats.players)}</div><div className="muted">شرکت‌کننده</div></div>
           </div>
           <p className="muted">
-            به بخش <Link href="/games">بازی‌ها</Link> بروید و نتایج را پیش از شروع هر مسابقه ثبت کنید،{" "}
+            به بخش <Link href="/games">پیش‌بینی</Link> بروید و نتایج را پیش از شروع هر مسابقه ثبت کنید،{" "}
             <Link href="/leaderboard">جدول امتیازات</Link> را ببینید یا <Link href="/rules">قوانین</Link> را بخوانید.
           </p>
         </div>

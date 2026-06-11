@@ -18,6 +18,8 @@ export default function MatchRow({ match, prediction }) {
 
   const kickoffTime = formatTime(new Date(match.kickoff));
   const locked = match.locked;
+  // editable only if the match hasn't kicked off AND the account is approved
+  const editable = !locked && match.canEdit !== false;
 
   async function save() {
     setIsError(false);
@@ -44,7 +46,7 @@ export default function MatchRow({ match, prediction }) {
       <div className="match">
         <div className="team home">{teamLabel(match.homeTeam)}</div>
         <div className="mid">
-          {locked ? (
+          {!editable ? (
             <div className="score-inputs">
               <span>{saved ? toFa(saved.h) : "–"}</span>
               <span className="sep">:</span>
@@ -76,13 +78,13 @@ export default function MatchRow({ match, prediction }) {
           {saved ? (
             <span className="badge mypick">پیش‌بینی شما: {toFa(saved.h)}–{toFa(saved.a)}</span>
           ) : (
-            !locked && <span className="badge">ثبت‌نشده</span>
+            editable && <span className="badge">ثبت‌نشده</span>
           )}
           {match.finished && prediction && (
             <span className="badge points">{toFa(prediction.points)}+ امتیاز</span>
           )}
           {locked && !match.finished && <span className="badge locked">قفل شد</span>}
-          {!locked && (
+          {editable && (
             <>
               {status && status !== "saving" && status !== "saved" && (
                 <span className="error" style={{ margin: 0 }}>{status}</span>

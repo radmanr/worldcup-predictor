@@ -14,7 +14,7 @@ export default function Nav({ user }) {
           </span>
         </Link>
         <div className="nav-links">
-          <Link href="/games">بازی‌ها</Link>
+          <Link href="/games">پیش‌بینی</Link>
           <Link href="/leaderboard">جدول امتیازات</Link>
           <Link href="/rules">قوانین</Link>
           {user?.isAdmin && <Link href="/admin">مدیریت</Link>}

@@ -32,17 +32,28 @@ export default async function GamesPage() {
   }
 
   const made = predictions.filter((p) => p.homeScore != null).length;
+  const canPredict = user.isAdmin || user.approved;
 
   return (
     <>
       <div className="card">
-        <h1>بازی‌های مرحلهٔ گروهی</h1>
+        <h1>پیش‌بینی بازی‌های مرحلهٔ گروهی</h1>
         <p className="muted">
           برای هر بازی نتیجهٔ پیش‌بینی خود را وارد و ذخیره کنید. پیش‌بینی هر بازی در زمان شروع آن قفل
           می‌شود (زمان‌ها به وقت ایران). شما تاکنون <strong>{toFa(made)}</strong> از {toFa(matches.length)}{" "}
           پیش‌بینی را ثبت کرده‌اید. <Link href="/rules">نحوهٔ امتیازدهی</Link> را ببینید.
         </p>
       </div>
+
+      {!canPredict && (
+        <div className="card" style={{ borderColor: "var(--gold)" }}>
+          <h2 style={{ color: "var(--gold)" }}>⏳ حساب شما در انتظار تأیید است</h2>
+          <p className="muted" style={{ margin: 0 }}>
+            ثبت‌نام شما با موفقیت انجام شد. برای شروع پیش‌بینی، باید مدیر بازی حساب شما را تأیید کند.
+            می‌توانید بازی‌ها را ببینید، اما تا زمان تأیید امکان ثبت پیش‌بینی وجود ندارد.
+          </p>
+        </div>
+      )}
 
       {groups.map((g) => (
         <div key={g.day}>
@@ -60,6 +71,7 @@ export default async function GamesPage() {
                 awayScore: m.awayScore,
                 finished: m.finished,
                 locked: m.kickoff.getTime() <= Date.now(),
+                canEdit: canPredict,
               }}
               prediction={
                 predByMatch[m.id]

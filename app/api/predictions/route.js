@@ -5,6 +5,9 @@ import { getCurrentUser } from "@/lib/auth";
 export async function POST(req) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "وارد نشده‌اید." }, { status: 401 });
+  if (!user.isAdmin && !user.approved) {
+    return NextResponse.json({ error: "حساب شما هنوز توسط مدیر بازی تأیید نشده است." }, { status: 403 });
+  }
 
   const { matchId, homeScore, awayScore } = await req.json().catch(() => ({}));
   const mId = parseInt(matchId, 10);

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ name: "", email: "", password: "", code: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "", code: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -39,8 +39,12 @@ export default function RegisterPage() {
       <p className="muted">ثبت‌نام کنید تا پیش‌بینی جام جهانی ۲۰۲۶ را همراه همکارانتان آغاز کنید.</p>
       <form onSubmit={submit}>
         <div className="field">
-          <label>نام نمایشی</label>
-          <input value={form.name} onChange={update("name")} placeholder="نامی که در جدول امتیازات نمایش داده می‌شود" />
+          <label>نام</label>
+          <input value={form.firstName} onChange={update("firstName")} placeholder="نام" />
+        </div>
+        <div className="field">
+          <label>نام خانوادگی</label>
+          <input value={form.lastName} onChange={update("lastName")} placeholder="نام خانوادگی" />
         </div>
         <div className="field">
           <label>ایمیل</label>

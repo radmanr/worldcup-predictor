@@ -4,10 +4,14 @@ import { prisma } from "@/lib/db";
 import { createSession } from "@/lib/auth";
 
 export async function POST(req) {
-  const { name, email, password, code } = await req.json().catch(() => ({}));
+  const { firstName, lastName, email, password, code } = await req.json().catch(() => ({}));
 
-  if (!name || !email || !password) {
-    return NextResponse.json({ error: "نام، ایمیل و رمز عبور الزامی است." }, { status: 400 });
+  const first = String(firstName || "").trim();
+  const last = String(lastName || "").trim();
+  const name = `${first} ${last}`.trim();
+
+  if (!first || !last || !email || !password) {
+    return NextResponse.json({ error: "نام، نام خانوادگی، ایمیل و رمز عبور الزامی است." }, { status: 400 });
   }
   if (password.length < 6) {
     return NextResponse.json({ error: "رمز عبور باید حداقل ۶ کاراکتر باشد." }, { status: 400 });
