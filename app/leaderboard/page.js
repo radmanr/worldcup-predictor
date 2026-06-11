@@ -7,8 +7,9 @@ export const dynamic = "force-dynamic";
 export default async function LeaderboardPage() {
   const user = await getCurrentUser();
 
-  // Aggregate points + counts per user
+  // Aggregate points + counts per user (only approved players / admins)
   const users = await prisma.user.findMany({
+    where: { OR: [{ approved: true }, { isAdmin: true }] },
     select: {
       id: true,
       name: true,
