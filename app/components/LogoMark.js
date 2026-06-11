@@ -8,7 +8,7 @@ export default function LogoMark({ size = "sm" }) {
   const imgClass = size === "lg" ? "hero-logo" : "logo";
   const fbClass = size === "lg" ? "hero-logo-fallback" : "logo-fallback";
   // Hero shows the full logo (emblem + wordmark); nav shows the emblem only.
-  const src = size === "lg" ? "/logo.png" : "/logo-mark.png";
+  const src = size === "lg" ? "/logo.png" : "/logo-mark.png?v=2";
   if (err) return <span className={fbClass} aria-hidden="true">ف</span>;
   return (
     <img
