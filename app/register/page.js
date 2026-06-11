@@ -1,0 +1,67 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [form, setForm] = useState({ name: "", email: "", password: "", code: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  function update(k) {
+    return (e) => setForm({ ...form, [k]: e.target.value });
+  }
+
+  async function submit(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    setLoading(false);
+    if (res.ok) {
+      router.push("/games");
+      router.refresh();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error || "Something went wrong.");
+    }
+  }
+
+  return (
+    <div className="card form-narrow">
+      <h1>Create your account</h1>
+      <p className="muted">Register to start predicting the 2026 World Cup with your colleagues.</p>
+      <form onSubmit={submit}>
+        <div className="field">
+          <label>Display name</label>
+          <input value={form.name} onChange={update("name")} placeholder="How you'll appear on the leaderboard" />
+        </div>
+        <div className="field">
+          <label>Email</label>
+          <input type="email" value={form.email} onChange={update("email")} placeholder="you@company.com" />
+        </div>
+        <div className="field">
+          <label>Password</label>
+          <input type="password" value={form.password} onChange={update("password")} placeholder="At least 6 characters" />
+        </div>
+        <div className="field">
+          <label>Registration code</label>
+          <input value={form.code} onChange={update("code")} placeholder="Ask your organiser" />
+        </div>
+        {error && <div className="error">{error}</div>}
+        <button className="btn block" disabled={loading}>
+          {loading ? "Creating account…" : "Register"}
+        </button>
+      </form>
+      <p className="muted center" style={{ marginTop: 16 }}>
+        Already registered? <Link href="/login">Log in</Link>
+      </p>
+    </div>
+  );
+}

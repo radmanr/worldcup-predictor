@@ -1,0 +1,11 @@
+node_modules
+.next
+.env
+.env*.local
+*.log
+.DS_Store
+/dev.db
+
+# sandbox verification artifacts (safe to delete)
+_selftest.mjs
+_swccheck.mjs

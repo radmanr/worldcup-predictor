@@ -1,0 +1,59 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  function update(k) {
+    return (e) => setForm({ ...form, [k]: e.target.value });
+  }
+
+  async function submit(e) {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    setLoading(false);
+    if (res.ok) {
+      router.push("/games");
+      router.refresh();
+    } else {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error || "Something went wrong.");
+    }
+  }
+
+  return (
+    <div className="card form-narrow">
+      <h1>Log in</h1>
+      <p className="muted">Welcome back — log in to make and update your predictions.</p>
+      <form onSubmit={submit}>
+        <div className="field">
+          <label>Email</label>
+          <input type="email" value={form.email} onChange={update("email")} placeholder="you@company.com" />
+        </div>
+        <div className="field">
+          <label>Password</label>
+          <input type="password" value={form.password} onChange={update("password")} />
+        </div>
+        {error && <div className="error">{error}</div>}
+        <button className="btn block" disabled={loading}>
+          {loading ? "Logging in…" : "Log in"}
+        </button>
+      </form>
+      <p className="muted center" style={{ marginTop: 16 }}>
+        New here? <Link href="/register">Create an account</Link>
+      </p>
+    </div>
+  );
+}
