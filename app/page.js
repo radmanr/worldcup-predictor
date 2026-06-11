@@ -23,7 +23,7 @@ export default async function HomePage() {
     <>
       <div className="card hero">
         <LogoMark size="lg" />
-        <h1>پیش‌بینی جام جهانی ۲۰۲۶ فیروزه</h1>
+        <h1>پیش‌بینی جام جهانی ۲۰۲۶</h1>
         <p className="muted" style={{ maxWidth: 560, margin: "0 auto 20px" }}>
           نتیجهٔ همهٔ بازی‌های مرحلهٔ گروهی جام جهانی ۲۰۲۶ را پیش‌بینی کنید. برای نتیجهٔ دقیق ۳ امتیاز،
           برای حدس درست برنده یا تساوی ۱ امتیاز بگیرید و در جدول امتیازات همکاران بالا بروید.

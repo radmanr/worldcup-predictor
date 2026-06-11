@@ -9,3 +9,7 @@ node_modules
 # sandbox verification artifacts (safe to delete)
 _selftest.mjs
 _swccheck.mjs
+
+# original logo source (we use the generated transparent PNGs instead)
+public/*.jpeg
+public/*.jpg

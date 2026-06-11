@@ -19,7 +19,7 @@ export default async function GamesPage() {
   const predByMatch = {};
   for (const p of predictions) predByMatch[p.matchId] = p;
 
-  // Group matches by Eastern-time calendar day
+  // Group matches by Tehran-time calendar day
   const groups = [];
   let current = null;
   for (const m of matches) {

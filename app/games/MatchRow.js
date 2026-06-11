@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { teamLabel } from "@/lib/teams";
 import { toFa, formatTime, groupLabel } from "@/lib/format";
 
 export default function MatchRow({ match, prediction }) {
+  const router = useRouter();
   const [home, setHome] = useState(prediction ? String(prediction.homeScore) : "");
   const [away, setAway] = useState(prediction ? String(prediction.awayScore) : "");
-  const [status, setStatus] = useState(""); // "", "saving", "saved", error text
+  // The currently saved prediction (authoritative), updated immediately on save.
+  const [saved, setSaved] = useState(
+    prediction ? { h: prediction.homeScore, a: prediction.awayScore } : null
+  );
+  const [status, setStatus] = useState(""); // "", "saving", "saved", or error text
   const [isError, setIsError] = useState(false);
 
   const kickoffTime = formatTime(new Date(match.kickoff));
@@ -22,8 +28,10 @@ export default function MatchRow({ match, prediction }) {
       body: JSON.stringify({ matchId: match.id, homeScore: home, awayScore: away }),
     });
     if (res.ok) {
+      setSaved({ h: parseInt(home, 10), a: parseInt(away, 10) });
       setStatus("saved");
-      setTimeout(() => setStatus(""), 1800);
+      router.refresh(); // keep the server-rendered counter / state in sync
+      setTimeout(() => setStatus(""), 2000);
     } else {
       const data = await res.json().catch(() => ({}));
       setIsError(true);
@@ -32,15 +40,15 @@ export default function MatchRow({ match, prediction }) {
   }
 
   return (
-    <div className="match-row-wrap">
+    <div className={"match-row-wrap" + (saved ? " has-pick" : "")}>
       <div className="match">
         <div className="team home">{teamLabel(match.homeTeam)}</div>
         <div className="mid">
           {locked ? (
             <div className="score-inputs">
-              <span>{prediction ? toFa(prediction.homeScore) : "–"}</span>
+              <span>{saved ? toFa(saved.h) : "–"}</span>
               <span className="sep">:</span>
-              <span>{prediction ? toFa(prediction.awayScore) : "–"}</span>
+              <span>{saved ? toFa(saved.a) : "–"}</span>
             </div>
           ) : (
             <div className="score-inputs">
@@ -65,6 +73,11 @@ export default function MatchRow({ match, prediction }) {
         </span>
 
         <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          {saved ? (
+            <span className="badge mypick">پیش‌بینی شما: {toFa(saved.h)}–{toFa(saved.a)}</span>
+          ) : (
+            !locked && <span className="badge">ثبت‌نشده</span>
+          )}
           {match.finished && prediction && (
             <span className="badge points">{toFa(prediction.points)}+ امتیاز</span>
           )}
@@ -76,7 +89,7 @@ export default function MatchRow({ match, prediction }) {
               )}
               {status === "saved" && <span className="success" style={{ margin: 0 }}>ذخیره شد ✓</span>}
               <button className="btn secondary" onClick={save} disabled={status === "saving"}>
-                {status === "saving" ? "در حال ذخیره…" : prediction ? "ویرایش" : "ذخیره"}
+                {status === "saving" ? "در حال ذخیره…" : saved ? "ویرایش پیش‌بینی" : "ثبت پیش‌بینی"}
               </button>
             </>
           )}
