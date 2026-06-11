@@ -1,14 +1,10 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { formatDateTime } from "@/lib/format";
 import ResultRow from "./ResultRow";
 
 export const dynamic = "force-dynamic";
-
-const DT_FMT = new Intl.DateTimeFormat("en-US", {
-  weekday: "short", month: "short", day: "numeric",
-  hour: "numeric", minute: "2-digit", timeZone: "America/New_York",
-});
 
 export default async function AdminPage() {
   const user = await getCurrentUser();
@@ -16,8 +12,8 @@ export default async function AdminPage() {
   if (!user.isAdmin) {
     return (
       <div className="card">
-        <h1>Admin</h1>
-        <p className="error">This area is for organisers only.</p>
+        <h1>مدیریت</h1>
+        <p className="error">این بخش فقط برای مدیر بازی است.</p>
       </div>
     );
   }
@@ -27,10 +23,10 @@ export default async function AdminPage() {
 
   return (
     <div className="card">
-      <h1>🛠️ Admin — enter results</h1>
+      <h1>🛠️ مدیریت — ثبت نتایج</h1>
       <p className="muted">
-        Enter the final score for each completed match and save. Points for every player are
-        recalculated automatically. You can re-save to correct a result, or clear it.
+        نتیجهٔ نهایی هر بازی تمام‌شده را وارد و ذخیره کنید. امتیاز همهٔ شرکت‌کنندگان به‌صورت خودکار
+        دوباره محاسبه می‌شود. برای اصلاح نتیجه می‌توانید دوباره ذخیره کنید یا آن را پاک کنید.
       </p>
       <div style={{ marginTop: 16 }}>
         {matches.map((m) => (
@@ -41,7 +37,7 @@ export default async function AdminPage() {
               groupName: m.groupName,
               homeTeam: m.homeTeam,
               awayTeam: m.awayTeam,
-              when: DT_FMT.format(m.kickoff) + " ET",
+              when: formatDateTime(m.kickoff) + " به وقت ایران",
               started: m.kickoff.getTime() <= now,
               homeScore: m.homeScore,
               awayScore: m.awayScore,

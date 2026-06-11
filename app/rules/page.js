@@ -1,59 +1,58 @@
-export const metadata = { title: "Rules — Office World Cup Predictor" };
+export const metadata = { title: "قوانین — پیش‌بینی جام جهانی فیروزه" };
 
 export default function RulesPage() {
   return (
     <div className="card rules">
-      <h1>📋 Game Rules</h1>
+      <h1>📋 قوانین بازی</h1>
       <p className="muted">
-        A simple, friendly office prediction game for the 2026 FIFA World Cup, based on the most
-        popular formats (Kicktipp / Superbru style).
+        یک بازی پیش‌بینی ساده و دوستانه برای جام جهانی ۲۰۲۶، بر اساس محبوب‌ترین قالب‌های پیش‌بینی
+        فوتبال (سبک Kicktipp / Superbru).
       </p>
 
-      <h3>How to play</h3>
+      <h3>نحوهٔ بازی</h3>
       <p>
-        Register an account, then predict the exact final score of each group-stage match. You can
-        change your prediction as many times as you like up until kickoff. Once a match starts, your
-        prediction for that match is locked.
+        یک حساب کاربری بسازید و سپس نتیجهٔ دقیق هر بازی مرحلهٔ گروهی را پیش‌بینی کنید. تا پیش از شروع
+        بازی می‌توانید هر چند بار که خواستید پیش‌بینی خود را تغییر دهید. به محض شروع بازی، پیش‌بینی
+        شما برای آن مسابقه قفل می‌شود.
       </p>
 
-      <h3>Scoring</h3>
+      <h3>امتیازدهی</h3>
       <div className="points-grid">
-        <div className="box"><div className="big">3</div><div className="muted">Exact score<br />(e.g. you said 2–1, it finished 2–1)</div></div>
-        <div className="box"><div className="big">1</div><div className="muted">Correct outcome<br />(right winner or draw, wrong score)</div></div>
-        <div className="box"><div className="big">0</div><div className="muted">Wrong outcome</div></div>
+        <div className="box"><div className="big">۳</div><div className="muted">نتیجهٔ دقیق<br />(مثلاً گفتید ۲–۱ و همان ۲–۱ شد)</div></div>
+        <div className="box"><div className="big">۱</div><div className="muted">نتیجهٔ درست<br />(برنده یا تساوی درست، اما گل‌ها متفاوت)</div></div>
+        <div className="box"><div className="big">۰</div><div className="muted">نتیجهٔ نادرست</div></div>
       </div>
       <p>
-        "Outcome" means home win, draw, or away win. So if you predict <strong>2–0</strong> and the
-        match ends <strong>3–1</strong>, you get <strong>1 point</strong> (you correctly picked the
-        home team to win). Predict <strong>1–1</strong> and it ends <strong>1–1</strong> and you bag
-        the full <strong>3 points</strong>.
+        منظور از «نتیجه» برد میزبان، تساوی یا برد میهمان است. پس اگر <strong>۲–۰</strong> پیش‌بینی کنید
+        و بازی <strong>۳–۱</strong> تمام شود، <strong>۱ امتیاز</strong> می‌گیرید (برد میزبان را درست حدس
+        زدید). اگر <strong>۱–۱</strong> بزنید و بازی <strong>۱–۱</strong> شود، هر <strong>۳ امتیاز</strong>
+        را می‌گیرید.
       </p>
 
-      <h3>Deadlines</h3>
+      <h3>مهلت‌ها</h3>
       <p>
-        Each match locks at its kickoff time. Late predictions can't be entered, so get yours in
-        early — ideally well before the first whistle. All kickoff times are displayed in US Eastern
-        Time (the host time zone).
+        هر بازی در زمان شروعش قفل می‌شود. پیش‌بینی دیرهنگام ثبت نمی‌شود، پس زودتر اقدام کنید — ترجیحاً
+        مدت‌ها پیش از سوت آغاز. همهٔ زمان‌های شروع به وقت ایران نمایش داده می‌شوند.
       </p>
 
-      <h3>The leaderboard</h3>
+      <h3>جدول امتیازات</h3>
       <p>
-        Everyone's points are totalled on the <a href="/leaderboard">leaderboard</a>. Ties are broken
-        by the number of exact-score predictions, and then alphabetically. The leaderboard updates
-        automatically as the organiser enters official results.
+        امتیاز همه در <a href="/leaderboard">جدول امتیازات</a> جمع می‌شود. در صورت تساوی، تعداد
+        پیش‌بینی‌های دقیق و سپس ترتیب حروف الفبا ملاک است. جدول با ثبت نتایج رسمی توسط مدیر بازی به‌طور
+        خودکار به‌روزرسانی می‌شود.
       </p>
 
-      <h3>Results &amp; fairness</h3>
+      <h3>نتایج و عدالت</h3>
       <p>
-        Official final scores are entered by the game organiser after each match. Points are then
-        calculated automatically and identically for everyone — no manual fiddling. If a result is
-        ever corrected, all affected points are recalculated.
+        نتایج نهایی رسمی پس از هر بازی توسط مدیر بازی وارد می‌شوند. سپس امتیازها به‌صورت خودکار و
+        یکسان برای همه محاسبه می‌شوند — بدون هیچ دخالت دستی. اگر زمانی نتیجه‌ای اصلاح شود، همهٔ امتیازهای
+        مرتبط دوباره محاسبه می‌گردند.
       </p>
 
-      <h3>Spirit of the game</h3>
+      <h3>روح بازی</h3>
       <p>
-        It's for fun and office bragging rights. Predict every game to maximise your points, check
-        back during the tournament, and may the best forecaster win. Good luck! ⚽
+        این بازی برای سرگرمی و افتخار میان همکاران است. برای کسب بیشترین امتیاز همهٔ بازی‌ها را
+        پیش‌بینی کنید، در طول تورنمنت سر بزنید، و بهترین پیش‌بین برنده شود. موفق باشید! ⚽
       </p>
     </div>
   );

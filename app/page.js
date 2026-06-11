@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { toFa } from "@/lib/format";
+import LogoMark from "./components/LogoMark";
 
 export const dynamic = "force-dynamic";
 
@@ -20,43 +22,44 @@ export default async function HomePage() {
   return (
     <>
       <div className="card hero">
-        <h1>⚽ Office World Cup Predictor 2026</h1>
+        <LogoMark size="lg" />
+        <h1>پیش‌بینی جام جهانی ۲۰۲۶ فیروزه</h1>
         <p className="muted" style={{ maxWidth: 560, margin: "0 auto 20px" }}>
-          Predict every group-stage match of the FIFA World Cup 2026. Score 3 points for an exact
-          result, 1 for the right outcome, and climb the office leaderboard.
+          نتیجهٔ همهٔ بازی‌های مرحلهٔ گروهی جام جهانی ۲۰۲۶ را پیش‌بینی کنید. برای نتیجهٔ دقیق ۳ امتیاز،
+          برای حدس درست برنده یا تساوی ۱ امتیاز بگیرید و در جدول امتیازات همکاران بالا بروید.
         </p>
         {user ? (
-          <Link href="/games" className="btn">Make your predictions</Link>
+          <Link href="/games" className="btn">ثبت پیش‌بینی‌ها</Link>
         ) : (
           <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
-            <Link href="/register" className="btn">Register</Link>
-            <Link href="/login" className="btn secondary">Log in</Link>
+            <Link href="/register" className="btn">ثبت‌نام</Link>
+            <Link href="/login" className="btn secondary">ورود</Link>
           </div>
         )}
       </div>
 
       {user && stats && (
         <div className="card">
-          <h2>Welcome back, {user.name}</h2>
+          <h2>خوش آمدید، {user.name}</h2>
           <div className="points-grid">
-            <div className="box"><div className="big">{stats.points}</div><div className="muted">Your points</div></div>
-            <div className="box"><div className="big">{stats.predictions}</div><div className="muted">Predictions made</div></div>
-            <div className="box"><div className="big">{stats.players}</div><div className="muted">Players registered</div></div>
+            <div className="box"><div className="big">{toFa(stats.points)}</div><div className="muted">امتیاز شما</div></div>
+            <div className="box"><div className="big">{toFa(stats.predictions)}</div><div className="muted">پیش‌بینی ثبت‌شده</div></div>
+            <div className="box"><div className="big">{toFa(stats.players)}</div><div className="muted">شرکت‌کننده</div></div>
           </div>
           <p className="muted">
-            Head to <Link href="/games">Games</Link> to lock in your scores before kickoff, check the{" "}
-            <Link href="/leaderboard">Leaderboard</Link>, or read the <Link href="/rules">Rules</Link>.
+            به بخش <Link href="/games">بازی‌ها</Link> بروید و نتایج را پیش از شروع هر مسابقه ثبت کنید،{" "}
+            <Link href="/leaderboard">جدول امتیازات</Link> را ببینید یا <Link href="/rules">قوانین</Link> را بخوانید.
           </p>
         </div>
       )}
 
       {!user && (
         <div className="card">
-          <h2>How it works</h2>
+          <h2>چطور کار می‌کند؟</h2>
           <p className="muted">
-            Register with the code from your organiser, predict the scoreline of each match before it
-            kicks off, and earn points based on how close you get. Predictions lock automatically at
-            kickoff, so get them in early. See the full <Link href="/rules">rules</Link>.
+            با کد دعوتی که مدیر بازی به شما می‌دهد ثبت‌نام کنید، نتیجهٔ هر بازی را پیش از شروع آن
+            پیش‌بینی کنید و بر اساس دقت حدس خود امتیاز بگیرید. پیش‌بینی هر بازی دقیقاً در زمان شروع
+            قفل می‌شود، پس زودتر ثبت کنید. <Link href="/rules">قوانین کامل</Link> را ببینید.
           </p>
         </div>
       )}

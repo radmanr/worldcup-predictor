@@ -2,13 +2,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { formatDay, toFa } from "@/lib/format";
 import MatchRow from "./MatchRow";
 
 export const dynamic = "force-dynamic";
-
-const DAY_FMT = new Intl.DateTimeFormat("en-US", {
-  weekday: "long", month: "long", day: "numeric", timeZone: "America/New_York",
-});
 
 export default async function GamesPage() {
   const user = await getCurrentUser();
@@ -26,7 +23,7 @@ export default async function GamesPage() {
   const groups = [];
   let current = null;
   for (const m of matches) {
-    const day = DAY_FMT.format(m.kickoff);
+    const day = formatDay(m.kickoff);
     if (!current || current.day !== day) {
       current = { day, items: [] };
       groups.push(current);
@@ -34,20 +31,16 @@ export default async function GamesPage() {
     current.items.push(m);
   }
 
-  const now = Date.now();
-  const made = predictions.filter((p) => {
-    const m = matches.find((x) => x.id === p.matchId);
-    return m && p.homeScore != null;
-  }).length;
+  const made = predictions.filter((p) => p.homeScore != null).length;
 
   return (
     <>
       <div className="card">
-        <h1>Group Stage Fixtures</h1>
+        <h1>بازی‌های مرحلهٔ گروهی</h1>
         <p className="muted">
-          Enter your predicted scoreline for each match and hit save. Predictions lock at kickoff
-          (times shown in US Eastern). You've made <strong>{made}</strong> of {matches.length}{" "}
-          predictions. See <Link href="/rules">how points work</Link>.
+          برای هر بازی نتیجهٔ پیش‌بینی خود را وارد و ذخیره کنید. پیش‌بینی هر بازی در زمان شروع آن قفل
+          می‌شود (زمان‌ها به وقت ایران). شما تاکنون <strong>{toFa(made)}</strong> از {toFa(matches.length)}{" "}
+          پیش‌بینی را ثبت کرده‌اید. <Link href="/rules">نحوهٔ امتیازدهی</Link> را ببینید.
         </p>
       </div>
 
@@ -66,7 +59,7 @@ export default async function GamesPage() {
                 homeScore: m.homeScore,
                 awayScore: m.awayScore,
                 finished: m.finished,
-                locked: m.kickoff.getTime() <= now,
+                locked: m.kickoff.getTime() <= Date.now(),
               }}
               prediction={
                 predByMatch[m.id]

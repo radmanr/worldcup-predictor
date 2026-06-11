@@ -11,7 +11,7 @@ export default function LogoutButton() {
   }
   return (
     <a href="#" onClick={(e) => { e.preventDefault(); logout(); }}>
-      Log out
+      خروج
     </a>
   );
 }

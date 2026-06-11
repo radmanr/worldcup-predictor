@@ -29,38 +29,38 @@ export default function RegisterPage() {
       router.refresh();
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error || "Something went wrong.");
+      setError(data.error || "خطایی رخ داد.");
     }
   }
 
   return (
     <div className="card form-narrow">
-      <h1>Create your account</h1>
-      <p className="muted">Register to start predicting the 2026 World Cup with your colleagues.</p>
+      <h1>ساخت حساب کاربری</h1>
+      <p className="muted">ثبت‌نام کنید تا پیش‌بینی جام جهانی ۲۰۲۶ را همراه همکارانتان آغاز کنید.</p>
       <form onSubmit={submit}>
         <div className="field">
-          <label>Display name</label>
-          <input value={form.name} onChange={update("name")} placeholder="How you'll appear on the leaderboard" />
+          <label>نام نمایشی</label>
+          <input value={form.name} onChange={update("name")} placeholder="نامی که در جدول امتیازات نمایش داده می‌شود" />
         </div>
         <div className="field">
-          <label>Email</label>
-          <input type="email" value={form.email} onChange={update("email")} placeholder="you@company.com" />
+          <label>ایمیل</label>
+          <input type="email" dir="ltr" value={form.email} onChange={update("email")} placeholder="you@company.com" />
         </div>
         <div className="field">
-          <label>Password</label>
-          <input type="password" value={form.password} onChange={update("password")} placeholder="At least 6 characters" />
+          <label>رمز عبور</label>
+          <input type="password" dir="ltr" value={form.password} onChange={update("password")} placeholder="حداقل ۶ کاراکتر" />
         </div>
         <div className="field">
-          <label>Registration code</label>
-          <input value={form.code} onChange={update("code")} placeholder="Ask your organiser" />
+          <label>کد دعوت</label>
+          <input value={form.code} onChange={update("code")} placeholder="از مدیر بازی بپرسید" />
         </div>
         {error && <div className="error">{error}</div>}
         <button className="btn block" disabled={loading}>
-          {loading ? "Creating account…" : "Register"}
+          {loading ? "در حال ساخت حساب…" : "ثبت‌نام"}
         </button>
       </form>
       <p className="muted center" style={{ marginTop: 16 }}>
-        Already registered? <Link href="/login">Log in</Link>
+        قبلاً ثبت‌نام کرده‌اید؟ <Link href="/login">وارد شوید</Link>
       </p>
     </div>
   );

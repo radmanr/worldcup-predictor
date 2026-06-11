@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { toFa } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -26,32 +27,32 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="card">
-      <h1>🏆 Leaderboard</h1>
+      <h1>🏆 جدول امتیازات</h1>
       <p className="muted">
-        Ranked by total points, then by number of exact-score hits. Points update as match results
-        are entered.
+        رتبه‌بندی بر اساس مجموع امتیاز و سپس تعداد نتایج دقیق. با ثبت نتایج بازی‌ها امتیازها
+        به‌روزرسانی می‌شوند.
       </p>
       {rows.length === 0 ? (
-        <p className="muted">No players yet. Be the first to register!</p>
+        <p className="muted">هنوز شرکت‌کننده‌ای نیست. اولین نفری باشید که ثبت‌نام می‌کند!</p>
       ) : (
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th>Player</th>
-              <th style={{ textAlign: "center" }}>Predicted</th>
-              <th style={{ textAlign: "center" }}>Exact</th>
-              <th style={{ textAlign: "right" }}>Points</th>
+              <th>شرکت‌کننده</th>
+              <th style={{ textAlign: "center" }}>پیش‌بینی</th>
+              <th style={{ textAlign: "center" }}>دقیق</th>
+              <th style={{ textAlign: "left" }}>امتیاز</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r, i) => (
               <tr key={r.id} className={user && r.id === user.id ? "me-row" : ""}>
-                <td className={`rank r${i + 1}`}>{i + 1}</td>
-                <td>{r.name}{user && r.id === user.id ? " (you)" : ""}</td>
-                <td style={{ textAlign: "center" }}>{r.made}</td>
-                <td style={{ textAlign: "center" }}>{r.exact}</td>
-                <td className="pts">{r.points}</td>
+                <td className={`rank r${i + 1}`}>{toFa(i + 1)}</td>
+                <td>{r.name}{user && r.id === user.id ? " (شما)" : ""}</td>
+                <td style={{ textAlign: "center" }}>{toFa(r.made)}</td>
+                <td style={{ textAlign: "center" }}>{toFa(r.exact)}</td>
+                <td className="pts">{toFa(r.points)}</td>
               </tr>
             ))}
           </tbody>

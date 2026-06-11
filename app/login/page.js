@@ -29,30 +29,30 @@ export default function LoginPage() {
       router.refresh();
     } else {
       const data = await res.json().catch(() => ({}));
-      setError(data.error || "Something went wrong.");
+      setError(data.error || "خطایی رخ داد.");
     }
   }
 
   return (
     <div className="card form-narrow">
-      <h1>Log in</h1>
-      <p className="muted">Welcome back — log in to make and update your predictions.</p>
+      <h1>ورود</h1>
+      <p className="muted">خوش آمدید — برای ثبت و ویرایش پیش‌بینی‌ها وارد شوید.</p>
       <form onSubmit={submit}>
         <div className="field">
-          <label>Email</label>
-          <input type="email" value={form.email} onChange={update("email")} placeholder="you@company.com" />
+          <label>ایمیل</label>
+          <input type="email" dir="ltr" value={form.email} onChange={update("email")} placeholder="you@company.com" />
         </div>
         <div className="field">
-          <label>Password</label>
-          <input type="password" value={form.password} onChange={update("password")} />
+          <label>رمز عبور</label>
+          <input type="password" dir="ltr" value={form.password} onChange={update("password")} />
         </div>
         {error && <div className="error">{error}</div>}
         <button className="btn block" disabled={loading}>
-          {loading ? "Logging in…" : "Log in"}
+          {loading ? "در حال ورود…" : "ورود"}
         </button>
       </form>
       <p className="muted center" style={{ marginTop: 16 }}>
-        New here? <Link href="/register">Create an account</Link>
+        حساب ندارید؟ <Link href="/register">ثبت‌نام کنید</Link>
       </p>
     </div>
   );

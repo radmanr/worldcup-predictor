@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { teamLabel } from "@/lib/teams";
+import { groupLabel } from "@/lib/format";
 
 export default function ResultRow({ match }) {
   const router = useRouter();
@@ -25,14 +27,14 @@ export default function ResultRow({ match }) {
     } else {
       const data = await res.json().catch(() => ({}));
       setIsError(true);
-      setStatus(data.error || "Could not save.");
+      setStatus(data.error || "ذخیره نشد.");
     }
   }
 
   return (
     <div className="match-row-wrap" style={{ borderBottom: "1px solid var(--line)", paddingBottom: 12 }}>
       <div className="match" style={{ background: "transparent", border: "none", padding: "6px 0" }}>
-        <div className="team home">{match.homeTeam}</div>
+        <div className="team home">{teamLabel(match.homeTeam)}</div>
         <div className="mid">
           <div className="score-inputs">
             <input type="number" min="0" value={home} onChange={(e) => setHome(e.target.value)} />
@@ -40,29 +42,29 @@ export default function ResultRow({ match }) {
             <input type="number" min="0" value={away} onChange={(e) => setAway(e.target.value)} />
           </div>
         </div>
-        <div className="team away">{match.awayTeam}</div>
+        <div className="team away">{teamLabel(match.awayTeam)}</div>
       </div>
       <div className="match-foot">
         <span className="meta">
-          <span className="badge">Group {match.groupName}</span> {match.when}
-          {match.finished && <span className="badge points" style={{ marginLeft: 6 }}>Result saved</span>}
-          {!match.started && <span className="badge" style={{ marginLeft: 6 }}>Not started</span>}
+          <span className="badge">{groupLabel(match.groupName)}</span> {match.when}
+          {match.finished && <span className="badge points" style={{ marginInlineStart: 6 }}>نتیجه ثبت شد</span>}
+          {!match.started && <span className="badge" style={{ marginInlineStart: 6 }}>شروع‌نشده</span>}
         </span>
         <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
           {status && status !== "saving" && (
             <span className={isError ? "error" : "success"} style={{ margin: 0 }}>{status}</span>
           )}
           {match.finished && (
-            <button className="btn secondary" onClick={() => send({ matchId: match.id, clear: true }, "Cleared")}>
-              Clear
+            <button className="btn secondary" onClick={() => send({ matchId: match.id, clear: true }, "پاک شد")}>
+              پاک کردن
             </button>
           )}
           <button
             className="btn"
             disabled={status === "saving"}
-            onClick={() => send({ matchId: match.id, homeScore: home, awayScore: away }, "Saved ✓")}
+            onClick={() => send({ matchId: match.id, homeScore: home, awayScore: away }, "ذخیره شد ✓")}
           >
-            {status === "saving" ? "Saving…" : "Save result"}
+            {status === "saving" ? "در حال ذخیره…" : "ثبت نتیجه"}
           </button>
         </span>
       </div>

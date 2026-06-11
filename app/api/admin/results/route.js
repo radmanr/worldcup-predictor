@@ -6,7 +6,7 @@ import { scorePrediction } from "@/lib/scoring";
 export async function POST(req) {
   const user = await getCurrentUser();
   if (!user?.isAdmin) {
-    return NextResponse.json({ error: "Admins only." }, { status: 403 });
+    return NextResponse.json({ error: "فقط مدیر بازی." }, { status: 403 });
   }
 
   const body = await req.json().catch(() => ({}));
@@ -14,7 +14,7 @@ export async function POST(req) {
   const clear = body.clear === true;
 
   const match = await prisma.match.findUnique({ where: { id: mId } });
-  if (!match) return NextResponse.json({ error: "Match not found." }, { status: 404 });
+  if (!match) return NextResponse.json({ error: "بازی یافت نشد." }, { status: 404 });
 
   if (clear) {
     // Remove the result and zero out points for this match.
@@ -31,7 +31,7 @@ export async function POST(req) {
   const h = parseInt(body.homeScore, 10);
   const a = parseInt(body.awayScore, 10);
   if (Number.isNaN(h) || Number.isNaN(a) || h < 0 || a < 0) {
-    return NextResponse.json({ error: "Enter both final scores (0 or more)." }, { status: 400 });
+    return NextResponse.json({ error: "هر دو نتیجهٔ نهایی را وارد کنید (۰ یا بیشتر)." }, { status: 400 });
   }
 
   const predictions = await prisma.prediction.findMany({ where: { matchId: mId } });
