@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -23,7 +24,10 @@ export default async function AdminPage() {
 
   return (
     <div className="card">
-      <h1>🛠️ مدیریت — ثبت نتایج</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+        <h1 style={{ margin: 0 }}>🛠️ مدیریت — ثبت نتایج</h1>
+        <Link href="/admin/participants" className="btn secondary">👥 مشاهدهٔ شرکت‌کنندگان</Link>
+      </div>
       <p className="muted">
         نتیجهٔ نهایی هر بازی تمام‌شده را وارد و ذخیره کنید. امتیاز همهٔ شرکت‌کنندگان به‌صورت خودکار
         دوباره محاسبه می‌شود. برای اصلاح نتیجه می‌توانید دوباره ذخیره کنید یا آن را پاک کنید.
